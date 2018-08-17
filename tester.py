@@ -12,6 +12,7 @@
 
 import pickle
 import sys
+sys.path.append("tools/")
 from sklearn.model_selection import StratifiedShuffleSplit
 from feature_format import featureFormat, targetFeatureSplit
 
@@ -73,9 +74,9 @@ def test_classifier(clf, dataset, feature_list, folds = 1000):
         print "Got a divide by zero when trying out:", clf
         print "Precision or recall may be undefined due to a lack of true positive predicitons."
 
-CLF_PICKLE_FILENAME = "../my_classifier.pkl"
-DATASET_PICKLE_FILENAME = "../my_dataset.pkl"
-FEATURE_LIST_FILENAME = "../my_feature_list.pkl"
+CLF_PICKLE_FILENAME = "my_classifier.pkl"
+DATASET_PICKLE_FILENAME = "my_dataset.pkl"
+FEATURE_LIST_FILENAME = "my_feature_list.pkl"
 
 def dump_classifier_and_data(clf, dataset, feature_list):
     with open(CLF_PICKLE_FILENAME, "w") as clf_outfile:

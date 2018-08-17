@@ -3,7 +3,7 @@
 import sys
 import pickle
 from time import time
-sys.path.append("../tools/")
+sys.path.append("tools/")
 
 from feature_format import featureFormat, targetFeatureSplit
 from tester import dump_classifier_and_data
@@ -26,7 +26,7 @@ features_list = ['poi', 'salary', 'bonus', 'total_payments', 'exercised_stock_op
 
 
 ### Load the dictionary containing the dataset
-with open("final_project_dataset.pkl", "r") as data_file:
+with open("datasets/final_project_dataset.pkl", "r") as data_file:
     data_dict = pickle.load(data_file)
 
 ### Fetch and Preprocess Email Data
@@ -34,7 +34,7 @@ with open("final_project_dataset.pkl", "r") as data_file:
 #dump_email_data(data_dict)
 #email_preprocessor(data_dict=data_dict)
 
-with open("emails_preprocessed.pkl", "rb") as fOpen:
+with open("datasets/emails_preprocessed.pkl", "rb") as fOpen:
     emails_preprocessed = pickle.load(fOpen)
 
 ### Task 2: Remove outliers
@@ -47,13 +47,13 @@ from_pois = []
 words_from_emails = []
 for key in sorted(data_dict.keys()):
     #print "\n",key, "\n"
-    prev = emails_preprocessed['DERRICK JR. JAMES V']
-    if key in emails_preprocessed:
-        data_dict[key]['word_data'] = emails_preprocessed[key]
-        words_from_emails.append(emails_preprocessed[key])
-    else:
-        data_dict[key]['word_data'] = prev
-        words_from_emails.append(prev)
+    #prev = emails_preprocessed['DERRICK JR. JAMES V']
+    #if key in emails_preprocessed:
+    #    data_dict[key]['word_data'] = emails_preprocessed[key]
+    #    words_from_emails.append(emails_preprocessed[key])
+    #else:
+    #    data_dict[key]['word_data'] = prev
+    #    words_from_emails.append(prev)
     for feature in data_dict[key]:
         #print "\t",feature,":",data_dict[key][feature]
         if feature != 'word_data':
@@ -113,7 +113,7 @@ my_dataset = data_dict
 data = featureFormat(my_dataset, features_list, sort_keys = True)
 labels, features = targetFeatureSplit(data)
 
-features = np.concatenate((features, np.array(words_from_emails)), axis=1)
+#features = np.concatenate((features, np.array(words_from_emails)), axis=1)
 #print len(features[0])
 
 ### Task 4: Try a varity of classifiers
@@ -145,7 +145,7 @@ from sklearn.pipeline import Pipeline
 
 
 
-n_comp = 9000
+n_comp = 5
 classifier = GaussianNB()
 classifier_name = 'gnb'
 estimators = [('reduce_dim', PCA(n_components=n_comp)), (classifier_name, classifier)]
